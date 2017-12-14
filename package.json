@@ -1,10 +1,11 @@
 {
-  "name": "github-api-query",
+  "name": "simple-github-api",
   "version": "1.0.0",
   "description": "A wrapper for the github api to ease requesting files, directory information from a repository",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -w"
+    "test": "mocha tests/*.js -w",
+    "coverage": "nyc mocha tests/*.js"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,11 @@
   },
   "homepage": "https://github.com/DarkPurple141/github-api-query#readme",
   "dependencies": {
+    "atob": "^2.0.3",
     "axios": "^0.17.1"
   },
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   }
 }
