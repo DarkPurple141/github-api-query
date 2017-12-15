@@ -1,8 +1,11 @@
 
+// NB You need to use your own GPG key for the tests to work
+
 const atob = require('atob')
 const api = require('../index')(atob)
 const assert = require('assert')
 const API_URL = "https://api.github.com"
+const GPG_KEY = require('../key.gpg') || "INSERT YOUR GPG KEY"
 
 describe("github-api", function() {
     it("compiles", function() {
@@ -10,12 +13,12 @@ describe("github-api", function() {
     })
 
     it("class instanciation", function() {
-        let instance = new api({token: "a7fa1abea2528e504424720ba23c04c7e2173ddf"})
+        let instance = new api({token: GPG_KEY})
         assert(instance)
     })
 
     it("getUrl", function() {
-        let instance = new api({token: "a7fa1abea2528e504424720ba23c04c7e2173ddf"})
+        let instance = new api({token: GPG_KEY})
         instance.repo = "fake"
         instance.user = "jeff"
         assert(instance.getUrl('readme.md') === API_URL+'/repos/jeff/fake/contents/readme.md')
@@ -23,7 +26,7 @@ describe("github-api", function() {
 
     it("getFile", function(done) {
       let instance = new api({
-         token: "a7fa1abea2528e504424720ba23c04c7e2173ddf",
+         token: GPG_KEY,
          username: "DarkPurple141",
          repo: "teaching"
       })
@@ -39,7 +42,7 @@ describe("github-api", function() {
 
     it("getDirectory", function(done) {
       let instance = new api({
-         token: "a7fa1abea2528e504424720ba23c04c7e2173ddf",
+         token: GPG_KEY,
          username: "DarkPurple141",
          repo: "teaching"
       })
@@ -55,7 +58,7 @@ describe("github-api", function() {
 
     it("getFileContents", function(done) {
       let instance = new api({
-         token: "a7fa1abea2528e504424720ba23c04c7e2173ddf",
+         token: GPG_KEY,
          username: "DarkPurple141",
          repo: "teaching"
       })

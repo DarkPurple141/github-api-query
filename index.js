@@ -14,8 +14,6 @@ module.exports = (atob) => {
       throw new Error("Function requires file argument.")
    }
 
-   // GPG key a7fa1abea2528e504424720ba23c04c7e2173ddf
-
    class API {
       constructor({ token = null, username = "", pw = "", repo = undefined} = {}) {
          this._username = username
