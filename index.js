@@ -1,9 +1,7 @@
 
+module.exports = (() => {
 
-const atob = require('atob')
-
-module.exports = (atob) => {
-
+   const atob    = require('atob')
    const axios   = require('axios')
    const API_URL = 'https://api.github.com'
 
@@ -110,4 +108,4 @@ module.exports = (atob) => {
 
    return API
 
-}
+})()
