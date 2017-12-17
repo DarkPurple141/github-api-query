@@ -86,7 +86,7 @@ module.exports = (() => {
       getContents(file = missingParameter()) {
          return this.get(file)
             .then(data => {
-               return atob(data.content)
+               return b64DecodeUnicode(data.content)
             })
             .catch(err => {
                throw err
