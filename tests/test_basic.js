@@ -4,9 +4,9 @@
 const api = require('../index')
 const assert = require('assert')
 const API_URL = "https://api.github.com"
-const GPG_KEY =  require('../key.gpg') //"INSERT YOUR GPG KEY" //
+const GPG_KEY =  "INSERT YOUR GPG KEY" //require('../key.gpg') // //
 
-describe("github-api", function() {
+describe("# github-api", function() {
     it("compiles", function() {
         assert(api)
     })
@@ -22,7 +22,7 @@ describe("github-api", function() {
         instance.user = "jeff"
         assert(instance.getUrl('readme.md') === API_URL+'/repos/jeff/fake/contents/readme.md')
     })
-    // tests require GPG KEY
+    /* tests require GPG KEY
     it("getFile", function(done) {
       let instance = new api({
          token: GPG_KEY,
@@ -67,10 +67,10 @@ describe("github-api", function() {
       })
       .then(done, done)
     })
-    
+    */
 })
 
-describe("valid-api-errors", function() {
+describe("# valid-api-errors", function() {
    it ("No token provided", () => {
       try {
          let a = new api()
@@ -98,7 +98,7 @@ describe("valid-api-errors", function() {
       }
    })
 
-   describe("#No file provided errors", () => {
+   describe("No file provided errors", () => {
       let a = new api({username: "jeff", pw: "secret"})
       it ("Try to get()", () => {
          try {
