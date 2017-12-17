@@ -1,6 +1,7 @@
 simple-github-api
 ====
 
+[![npm version](https://img.shields.io/npm/v/simple-github-api.svg?style=flat-square)](https://www.npmjs.org/package/simple-github-api)
 [![Build Status](https://travis-ci.org/DarkPurple141/github-api-query.svg?branch=master)](https://travis-ci.org/DarkPurple141/github-api-query)
 [![Coverage Status](https://coveralls.io/repos/github/DarkPurple141/github-api-query/badge.svg?branch=master)](https://coveralls.io/github/DarkPurple141/github-api-query?branch=master)
 
