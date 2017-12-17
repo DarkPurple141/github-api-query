@@ -4,13 +4,7 @@
 const api = require('../index')
 const assert = require('assert')
 const API_URL = "https://api.github.com"
-const GPG_KEY = () => {
-   try {
-      return require('../key.gpg')
-   } catch(e) {
-      return "INSERT YOUR GPG KEY"
-   }
-}
+const GPG_KEY = require('../key.gpg') // "INSERT YOUR GPG KEY"
 
 describe("github-api", function() {
     it("compiles", function() {

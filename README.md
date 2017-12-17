@@ -1,7 +1,10 @@
 simple-github-api
 ====
 
+```
+Changing soon.
 [![Build Status](https://travis-ci.org/DarkPurple141/github-api-query.svg?branch=master)](https://travis-ci.org/DarkPurple141/github-api-query)
+```
 
 This is a simple wrapper for the
 [GitHub API](https://developer.github.com/v3/) to ease requesting files,
