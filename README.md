@@ -51,28 +51,72 @@ instance.getContents('some/file/path')
 
 ### API
 
-Full docs coming soon!
+In progress!
 
 ```js
 const API = require('simple-github-api')
+```
 
-// constructor info coming soon or read the src
+#### Constructors
+The `new` keyword is required to
+create an instance of the API
+object.
 
+It is recommended to get an `OAUTH`
+key issued for your application and
+instantiate with that token.
+
+```js
+let instance = new API(
+   {
+      token: "A valid token"
+   })
+```
+
+The default object however doesn't require any config.
+```js
+// results in a warning.
+// If you do > 60 requests per day
+// you will get a 401 error for api requests.
 let instance = new API()
+```
+You can also pass in basic auth credentials, and a repository.
+
+```js
+// all valid options you can pass in
+options = {
+   username: "jeff",
+   pw: "secret",
+   repo: "sweetProject",
+
+   // token will override basic auth if provided
+   token: "OAUTHToken"
+}
+```
+#### Main Features
+The basic interface below is unlikely to change, although further features may be added later. For all of the below path is a string.
+
+Interface | Description
+--------- | ----------
+`.get(path)`         | Returns the fileObject or directory for the relevant file. Takes a string relative path, and requires the `repo` and `user` to be set.
+`.getUrl(path)`      | Returns the current url formed for the request. Mainly called internally.
+`.getContents(path)` | Returns the `file` contents directly, decoded and ready to use.
+`.decode(encodedFile)`  | Decodes a file object in base64Unicode.
+
+
+
+#### Configuration
+```js
+// sets/update a new repo
+instance.repo = "NewRepo"
+
+// sets/update user
+instance.user = "newUser"
 
 // returns the underlying axios instance
 // which you can configure as you so desire
 // More on axios here https://github.com/axios/axios
 let axios = instance.axios
-
-// returns the fully formed api url
-let url = instance.getUrl('some/path')
-
-// changes/updates the owner for the request to "differentUser"
-instance.user = "differentUser"
-
-// changes/updates the repo for the request to "differentRepo"
-instance.repo = "differentRepo"
 ```
 
 ## Credits
