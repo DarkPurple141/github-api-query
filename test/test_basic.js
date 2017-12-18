@@ -39,7 +39,7 @@ describe("# github-api", function() {
         assert(instance.getUrl('readme.md') === API_URL+'/repos/jeff/fake/contents/readme.md')
     })
 
-    describe("No Auth", function(done) {
+    describe("Requests with no Auth", function(done) {
       let instance = new api() // create a default config instance
       instance.user = "DarkPurple141"
       instance.repo = "teaching"
@@ -53,7 +53,6 @@ describe("# github-api", function() {
            return fileObject.content
         })
         .then(file => {
-           console.log(file)
            assert(instance.decode(file))
         })
         .then(done, done)
