@@ -44,6 +44,8 @@ module.exports = (() => {
          } else {
             // defaults to no configuration
             // NB without auth, IP will be throttled after 50 requests
+            console.warn("Note: Without auth credentials your IP will be" +
+            " throttled by GitHub after 50 requests")
             this._http = axios.create()
          }
       }
