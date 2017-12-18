@@ -30,7 +30,7 @@
   "nyc": {
     "exclude": [
       "coverage/**",
-      "test/**"
+      "test/**",
       "**/node_modules/**",
       "example/**"
     ]
