@@ -2,8 +2,8 @@
 module.exports = (() => {
 
    const axios   = require('axios')
-   const API_URL = 'https://api.github.com'
    const atob    = require('atob')
+   const API_URL = 'https://api.github.com'
 
    function b64DecodeUnicode(str) {
     // Going backwards: from bytestream, to percent-encoding, to original string.
@@ -31,16 +31,20 @@ module.exports = (() => {
                   'Authorization': `token ${token}`
                }
             })
-         } else {
-            if (!username || !pw)
+         } else if (pw) {
+            if (!username && pw)
                throw new Error("Need to provide basic auth credentials!" +
-                " A username and pw is req'd if no auth token provided.")
+                " A username and pw is req'd if no OAUTH token provided.")
             this._http = axios.create({
                auth: {
                   username: username,
                   password: pw
                }
             })
+         } else {
+            // defaults to no configuration
+            // NB without auth, IP will be throttled after 50 requests
+            this._http = axios.create()
          }
       }
       /**
@@ -86,7 +90,7 @@ module.exports = (() => {
       getContents(file = missingParameter()) {
          return this.get(file)
             .then(data => {
-               return b64DecodeUnicode(data.content)
+               return this.decode(data.content)
             })
             .catch(err => {
                throw err
@@ -109,6 +113,12 @@ module.exports = (() => {
             .catch(err => {
                throw err
             })
+      }
+      /**
+       * Decode unicode provided by github
+       */
+      decode(file) {
+         return b64DecodeUnicode(file)
       }
 
    }

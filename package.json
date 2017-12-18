@@ -4,7 +4,7 @@
   "description": "A wrapper for the github api to ease requesting files, directory information from a repository",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha tests/*.js",
+    "test": "nyc mocha test/*.js",
     "coverage": "nyc report --reporter=html --reporter=text-lcov | coveralls"
   },
   "repository": {

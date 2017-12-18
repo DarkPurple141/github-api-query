@@ -1,18 +1,34 @@
 
-// NB You need to use your own GPG key for the tests to work
+// NB You need to use your own GPG key for the OAUTH tests to work
 
 const api = require('../index')
 const assert = require('assert')
 const API_URL = "https://api.github.com"
-const GPG_KEY =  "INSERT YOUR GPG KEY" //require('../key.gpg') // //
+const GPG_KEY =  "INSERT YOUR GPG KEY" //require('../key.gpg')
+
 
 describe("# github-api", function() {
     it("compiles", function() {
         assert(api)
     })
 
-    it("class instanciation", function() {
+    it("class instanciation v1", function() {
         let instance = new api({token: GPG_KEY})
+        assert(instance)
+    })
+
+    it("class instanciation v2", function() {
+        let instance = new api({username: "jeff", pw: "secret"})
+        assert(instance)
+    })
+
+    it("class instanciation v3", function() {
+        let instance = new api({repo: "proj"})
+        assert(instance)
+    })
+
+    it("class instanciation v4", function() {
+        let instance = new api()
         assert(instance)
     })
 
@@ -21,6 +37,48 @@ describe("# github-api", function() {
         instance.repo = "fake"
         instance.user = "jeff"
         assert(instance.getUrl('readme.md') === API_URL+'/repos/jeff/fake/contents/readme.md')
+    })
+
+    describe("No Auth", function(done) {
+      let instance = new api() // create a default config instance
+      instance.user = "DarkPurple141"
+      instance.repo = "teaching"
+
+      it("getFile", function(done) {
+
+        let p = instance.get('about.md')
+        assert(p instanceof Promise)
+        p.then(fileObject => {
+           assert(fileObject instanceof Object)
+           return fileObject.content
+        })
+        .then(file => {
+           console.log(file)
+           assert(instance.decode(file))
+        })
+        .then(done, done)
+      })
+
+      it("getDirectory", function(done) {
+
+        let p = instance.get('_labs')
+        assert(p instanceof Promise)
+        p.then(dir => {
+           assert(dir instanceof Array)
+        })
+        .then(done, done)
+      })
+
+      it("getFileContents", function(done) {
+
+        let p = instance.getContents('about.md')
+        assert(p instanceof Promise)
+        p.then(file => {
+           assert(file)
+        })
+        .then(done, done)
+      })
+
     })
     /* tests require GPG KEY
     it("getFile", function(done) {
@@ -71,30 +129,13 @@ describe("# github-api", function() {
 })
 
 describe("# valid-api-errors", function() {
-   it ("No token provided", () => {
-      try {
-         let a = new api()
-      } catch (e) {
-         assert(e.message == "Need to provide basic auth credentials!"+
-         " A username and pw is req'd if no auth token provided.")
-      }
-   })
-
-   it ("No pw provided, but username is", () => {
-      try {
-         let a = new api({username: "Jeff"})
-      } catch (e) {
-         assert(e.message == "Need to provide basic auth credentials!"+
-         " A username and pw is req'd if no auth token provided.")
-      }
-   })
 
    it ("No username provided, but pw is", () => {
       try {
          let a = new api({pw: "secret"})
       } catch (e) {
          assert(e.message == "Need to provide basic auth credentials!"+
-         " A username and pw is req'd if no auth token provided.")
+         " A username and pw is req'd if no OAUTH token provided.")
       }
    })
 
