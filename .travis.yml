@@ -1,13 +1,11 @@
 language: node_js
 node_js:
-   - "node"
-
-before_install:
-   - npm i -g npm@3.10.8
-
+- '10'
 after_script:
-   - npm run coverage
-
+- npm run coverage
 cache:
-   directories:
-      - "node_modules"
+  directories:
+  - node_modules
+env:
+  global:
+    secure: V/vx3YeMEnLsvWTN3t9JZxqROp4oreUle9qPcbZ4SqshJtt7qu35PzngNVoxxjUZTV3faM83gEKI00IMUDggU7/Hl23JLCNG5Ukn/uAOA+WDiV5SSBD1WjgLZD0EiiTHqUdZ7/tmb3SKmywzLtem3x3jHmyLSaM7YLMOmzfcB9yzt+Ol0iKgiT6PCU5BKM227Yr46tQmIrbiHlTFYYH/xb2uCI7twOi0UfXyIca378ijEu/ojFtW9WAZhvTLgkI2mF3lpA7dPbJ7G7BBYLYufBLNJ4uufmqsXWhdE0ppkm7hk6H+7x7Ojxqqd8IyUqzH4JepY2E9kG4o0XjkkScym9T2iuVh499RZIRGTwmtmFLPt7PaXTkimn8jJKRP1KZZCs6znFSDMAr600lteBQFi1WFwjU6WdRI9kWmQlVmEIWERWm//+A1SZlezBVTUjW5jU/2YnTZZLB/VyA+iXVT19cYtIR2UG3rOXmKpCtEkJOd932z7dnEVWB1nb9uzbKkPPU3TIck662d4TrvQpFYgKhuM+NgsA2/ZvBI6BBP8XWs+aVQDEtJ6/ChjfCQgzlJgA+50HddnbP0dTiqszF/mO5W1DU2XvW81ovahp9jSr8L6TxCVu/1S7cN1PclEH3c/26ZiZiJ26+wIXW2vrVyGUodLFiV7S1Jpzr4JLDHfao=

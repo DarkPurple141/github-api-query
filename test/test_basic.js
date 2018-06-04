@@ -4,7 +4,7 @@
 const api = require('../index')
 const assert = require('assert')
 const API_URL = "https://api.github.com"
-const GPG_KEY =  "INSERT YOUR GPG KEY" //require('../key.gpg')
+const GPG_KEY = process.env['GPG_KEY'] || require('../key.gpg')
 
 
 describe("# github-api", function() {
@@ -39,11 +39,16 @@ describe("# github-api", function() {
         assert(instance.getUrl('readme.md') === API_URL+'/repos/jeff/fake/contents/readme.md')
     })
 
-    describe("Requests with no Auth", function(done) {
-      let instance = new api() // create a default config instance
-      instance.user = "DarkPurple141"
-      instance.repo = "teaching"
+    describe("Requests", function(done) {
+      let instance = new api({
+         token: GPG_KEY,
+         username: "DarkPurple141",
+         repo: "teaching"
+      })
 
+      this.timeout(5000)
+
+      /* tests require GPG KEY */
       it("getFile", function(done) {
 
         let p = instance.get('about.md')
@@ -55,7 +60,9 @@ describe("# github-api", function() {
         .then(file => {
            assert(instance.decode(file))
         })
-        .then(done, done)
+        .then(() => {
+           done()
+        })
       })
 
       it("getDirectory", function(done) {
@@ -65,66 +72,21 @@ describe("# github-api", function() {
         p.then(dir => {
            assert(dir instanceof Array)
         })
-        .then(done, done)
+        .then(() => {
+           done()
+        })
       })
 
       it("getFileContents", function(done) {
 
         let p = instance.getContents('about.md')
         assert(p instanceof Promise)
-        p.then(file => {
-           assert(file)
+        p.then(file => assert(file))
+        .then(() => {
+           done()
         })
-        .then(done, done)
       })
-
     })
-    /* tests require GPG KEY
-    it("getFile", function(done) {
-      let instance = new api({
-         token: GPG_KEY,
-         username: "DarkPurple141",
-         repo: "teaching"
-      })
-
-      let p = instance.get('about.md')
-      assert(p instanceof Promise)
-      p.then(file => {
-         assert(file instanceof Object)
-      })
-      .then(done, done)
-    })
-
-    it("getDirectory", function(done) {
-      let instance = new api({
-         token: GPG_KEY,
-         username: "DarkPurple141",
-         repo: "teaching"
-      })
-
-      let p = instance.get('_labs')
-      assert(p instanceof Promise)
-      p.then(dir => {
-         assert(dir instanceof Array)
-      })
-      .then(done, done)
-    })
-
-    it("getFileContents", function(done) {
-      let instance = new api({
-         token: GPG_KEY,
-         username: "DarkPurple141",
-         repo: "teaching"
-      })
-
-      let p = instance.getContents('about.md')
-      assert(p instanceof Promise)
-      p.then(file => {
-         assert(file)
-      })
-      .then(done, done)
-    })
-    */
 })
 
 describe("# valid-api-errors", function() {
