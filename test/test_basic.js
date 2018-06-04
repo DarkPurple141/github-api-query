@@ -1,6 +1,4 @@
 
-// NB You need to use your own GPG key for the OAUTH tests to work
-
 const api = require('../index')
 const assert = require('assert')
 const API_URL = "https://api.github.com"
