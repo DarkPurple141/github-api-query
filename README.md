@@ -98,7 +98,9 @@ Interface | Description
 --------- | ----------
 `.get(path)`         | Returns the fileObject or directory for the relevant file. Takes a string relative path, and requires the `repo` and `user` to be set.
 `.getUrl(path)`      | Returns the current url formed for the request. Mainly called internally.
-`.getContents(path)` | Returns the `file` contents directly, decoded and ready to use.
+`.getFileContents(path)` | Returns the `file` contents directly, decoded and ready to use.
+`.listRepos()`  | List repositories of current user
+`.getRepo(repo, user(optional))`  | Provides the repo object for a nominated repository. User defaults to current.
 `.decode(encodedFile)`  | Decodes a file object in base64Unicode.
 
 
