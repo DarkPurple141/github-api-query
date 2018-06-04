@@ -173,4 +173,20 @@ describe("# valid-api-errors", function() {
       }
    })
 
+   it ("Try to getRepo() with a bad path provided", () => {
+      let a = new api({token: GPG_KEY, username: "jeff", pw: "secret"})
+      a.getRepo('fake.md', 'fake')
+      .catch(err => {
+         assert(err)
+      })
+   })
+
+   it ("Try to listRepos() for a bad username", () => {
+      let a = new api({username: "jeff", pw: "secret"})
+      a.listRepos()
+      .catch(err => {
+         assert(err)
+      })
+   })
+
 })

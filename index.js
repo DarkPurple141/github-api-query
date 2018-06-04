@@ -101,9 +101,6 @@ module.exports = (() => {
       getFileContents(file = missingParameter()) {
          return this.get(file)
             .then(data => this.decode(data.content))
-            .catch(err => {
-               throw err
-            })
       }
 
       /**
@@ -114,9 +111,6 @@ module.exports = (() => {
          const uri = `${API_URL}/repositories`
          return this.axios.get(uri)
                   .then(response => response.data)
-                  .catch(err => {
-                     throw err
-                  })
       }
 
       /**
@@ -129,9 +123,6 @@ module.exports = (() => {
          const uri = `${API_URL}/repos/${owner}/${repo}`
          return this.axios.get(uri)
                   .then(response => response.data)
-                  .catch(err => {
-                     throw err
-                  })
       }
 
       /**
