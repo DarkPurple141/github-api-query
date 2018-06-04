@@ -21,7 +21,7 @@ module.exports = (() => {
 
    class API {
       constructor({ token = null, username = "", pw = "", repo = undefined} = {}) {
-         this._username = username
+         this._username   = username
          this._repository = repo
 
          //if (!repo) throw Error("You need to provide a repo!")
@@ -31,22 +31,19 @@ module.exports = (() => {
                   'Authorization': `token ${token}`
                }
             })
-         } else if (pw) {
-            if (!username && pw)
-               throw new Error("Need to provide basic auth credentials!" +
-                " A username and pw is req'd if no OAUTH token provided.")
+         } else if (username && pw) {
+
             this._http = axios.create({
                auth: {
                   username: username,
                   password: pw
-               }
+               },
+               withCredentials: true
             })
          } else {
             // defaults to no configuration
-            // NB without auth, IP will be throttled after 50 requests
-            console.warn("Note: Without auth credentials your IP will be" +
-            " throttled by GitHub after 50 requests")
-            this._http = axios.create()
+            throw new Error("As of version 2.0, instance creation fails without "+
+                          "some sort of authentication token/creds provided.")
          }
       }
       /**
@@ -75,7 +72,7 @@ module.exports = (() => {
 
       /**
        * @returns the current url formed for the request. Mainly called internally.
-       * Expoxed for debugging.
+       * Exposed for debugging.
        */
       getUrl(file = missingParameter(), { username = "", repository = undefined} = {}) {
          let user = username || this._username
@@ -89,14 +86,44 @@ module.exports = (() => {
          return `${API_URL}/repos/${user}/${repo}/contents/${file}`
       }
 
-      getContents(file = missingParameter()) {
+      /**
+         @param file the file path being requested
+      */
+      getContents(file) {
+         console.warn("getContents() is deprecated, please use getFileContents()")
+         return this.getFileContents(file)
+      }
+
+      /**
+         ** future api
+         @param file the file path being requested
+      */
+      getFileContents(file = missingParameter()) {
          return this.get(file)
-            .then(data => {
-               return this.decode(data.content)
-            })
+            .then(data => this.decode(data.content))
             .catch(err => {
                throw err
             })
+      }
+
+      /**
+         no params req'd as it will return user's own repos
+         @returns A Promise with an array of data
+      */
+      listRepos() {
+         return this.axios.get(`${API_URL}'/repositories`)
+                  .then(response => response.data)
+      }
+
+      /**
+         If no owner provided use self
+         else use full url
+      */
+      getRepo(repo = missingParameter(), owner = null) {
+         if (!owner)
+            owner = this._username
+         return this.axios.get(`${API_URL}'/repos/${owner}/${this._repository}`)
+                  .then(response => response.data)
       }
 
       /**
@@ -109,9 +136,7 @@ module.exports = (() => {
          let url = this.getUrl(file)
 
          return this.axios.get(url)
-            .then(response => {
-               return response.data
-            })
+            .then(response => response.data)
             .catch(err => {
                throw err
             })

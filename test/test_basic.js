@@ -20,16 +20,6 @@ describe("# github-api", function() {
         assert(instance)
     })
 
-    it("class instanciation v3", function() {
-        let instance = new api({repo: "proj"})
-        assert(instance)
-    })
-
-    it("class instanciation v4", function() {
-        let instance = new api()
-        assert(instance)
-    })
-
     it("getUrl", function() {
         let instance = new api({token: GPG_KEY})
         instance.repo = "fake"
@@ -37,7 +27,7 @@ describe("# github-api", function() {
         assert(instance.getUrl('readme.md') === API_URL+'/repos/jeff/fake/contents/readme.md')
     })
 
-    describe("Requests", function(done) {
+    describe("* Requests", function(done) {
       let instance = new api({
          token: GPG_KEY,
          username: "DarkPurple141",
@@ -75,11 +65,51 @@ describe("# github-api", function() {
         })
       })
 
-      it("getFileContents", function(done) {
+      it("getContents", function(done) {
 
         let p = instance.getContents('about.md')
         assert(p instanceof Promise)
         p.then(file => assert(file))
+        .then(() => {
+           done()
+        })
+      })
+
+      it("getFileContents", function(done) {
+
+        let p = instance.getFileContents('about.md')
+        assert(p instanceof Promise)
+        p.then(file => assert(file))
+        .then(() => {
+           done()
+        })
+      })
+
+      it("getRepo (single param)", function(done) {
+
+        let p = instance.getRepo('Teaching')
+        assert(p instanceof Promise)
+        p.then(file => assert(file instanceof Object))
+        .then(() => {
+           done()
+        })
+      })
+
+      it("getRepo (two params)", function(done) {
+
+        let p = instance.getRepo('LeonBot', 'zainafzal08')
+        assert(p instanceof Promise)
+        p.then(file => assert(file instanceof Object))
+        .then(() => {
+           done()
+        })
+      })
+
+      it("listRepos", function(done) {
+
+        let p = instance.listRepos()
+        assert(p instanceof Promise)
+        p.then(file => assert(file instanceof Object))
         .then(() => {
            done()
         })
@@ -89,16 +119,15 @@ describe("# github-api", function() {
 
 describe("# valid-api-errors", function() {
 
-   it ("No username provided, but pw is", () => {
+   it ("No username and pw provided", () => {
       try {
          let a = new api({pw: "secret"})
       } catch (e) {
-         assert(e.message == "Need to provide basic auth credentials!"+
-         " A username and pw is req'd if no OAUTH token provided.")
+         assert(e.message == "As of version 2.0, instance creation fails without some sort of authentication token/creds provided.")
       }
    })
 
-   describe("No file provided errors", () => {
+   describe("* No file provided errors", () => {
       let a = new api({username: "jeff", pw: "secret"})
       it ("Try to get()", () => {
          try {
