@@ -10,7 +10,7 @@ This is a simple wrapper for the
  directory information from a repository.
 
 ### Basic Usage:
-```node
+```bash
 # To download and install
 npm install --save simple-github-api
 ```
@@ -50,8 +50,6 @@ instance.getContents('some/file/path')
 ```
 
 ### API
-
-In progress!
 
 ```js
 const API = require('simple-github-api')
