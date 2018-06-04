@@ -34,7 +34,7 @@ describe("# github-api", function() {
          repo: "teaching"
       })
 
-      this.timeout(5000)
+      this.timeout(10000)
 
       /* tests require GPG KEY */
       it("getFile", function(done) {
@@ -85,9 +85,19 @@ describe("# github-api", function() {
         })
       })
 
+      it("getRepo (no param)", function(done) {
+
+        let p = instance.getRepo()
+        assert(p instanceof Promise)
+        p.then(file => assert(file instanceof Object))
+        .then(() => {
+           done()
+        })
+      })
+
       it("getRepo (single param)", function(done) {
 
-        let p = instance.getRepo('Teaching')
+        let p = instance.getRepo('teaching')
         assert(p instanceof Promise)
         p.then(file => assert(file instanceof Object))
         .then(() => {
@@ -109,7 +119,7 @@ describe("# github-api", function() {
 
         let p = instance.listRepos()
         assert(p instanceof Promise)
-        p.then(file => assert(file instanceof Object))
+        p.then(repos => assert(repos instanceof Array))
         .then(() => {
            done()
         })

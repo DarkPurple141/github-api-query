@@ -111,19 +111,27 @@ module.exports = (() => {
          @returns A Promise with an array of data
       */
       listRepos() {
-         return this.axios.get(`${API_URL}'/repositories`)
+         const uri = `${API_URL}/repositories`
+         return this.axios.get(uri)
                   .then(response => response.data)
+                  .catch(err => {
+                     throw err
+                  })
       }
 
       /**
          If no owner provided use self
          else use full url
       */
-      getRepo(repo = missingParameter(), owner = null) {
+      getRepo(repo = this._repository, owner = null) {
          if (!owner)
             owner = this._username
-         return this.axios.get(`${API_URL}'/repos/${owner}/${this._repository}`)
+         const uri = `${API_URL}/repos/${owner}/${repo}`
+         return this.axios.get(uri)
                   .then(response => response.data)
+                  .catch(err => {
+                     throw err
+                  })
       }
 
       /**
